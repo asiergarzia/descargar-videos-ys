@@ -6,7 +6,7 @@ import os
 import glob
 
 # Especifica las extensiones de los archivos que quieres eliminar
-extensions = ['*.m3u8', '*.txt']
+extensions = ['*.m3u8', '*.m3u']
 for extension in extensions:
     # Busca todos los archivos con la extensión especificada
     files_to_delete = glob.glob(extension)
