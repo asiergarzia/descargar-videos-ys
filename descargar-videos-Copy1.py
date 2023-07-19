@@ -4,8 +4,6 @@ from bs4 import BeautifulSoup
 import subprocess
 import os
 import glob
-import sys
-
 
 # Especifica las extensiones de los archivos que quieres eliminar
 extensions = ['*.m3u8', '*.m3u']
@@ -17,43 +15,27 @@ for extension in extensions:
         os.remove(file_name)
         print(f"Archivo {file_name} eliminado.")
 base = "https://www.machogaytube.com"
-base = input(f"introduce una web, por ejemplo: {base} \n") or "https://www.machogaytube.com"
-print(f"La web ingresada es: {base}")
 
-menu = ["/categories/", "/channels/", "/pornstars/"]
+input(f"introduce una web, por ejemplo: {base} \n")
 
-while True:
-    entrada = input("- categorias --> pulsa 1\n- canales --> pulsa 2\n- pornstars --> pulsa 3: \n")
-    try:
-        i = int(entrada) - 1
-        if i in [0, 1, 2]:
-            url = base+menu[i]
-            print("has escogido : " + menu[i])
-            break
-        else:
-            print("Por favor, introduce 1, 2 o 3.")
-    except ValueError:
-        print("Por favor, introduce un número.")
+menu = ["/categories/", "/channels/"]
 
+entrada = input("Ver menu categorias pulsa 1, ver menu canales pulsa 2: \n")
+print(f"Pulsaste la opción: {entrada}")
+i = int(entrada)-1
+print("has escogido : " + menu[i])
 
+url = base+menu[i]
 print(f"Configurada la que url de la que se extraerán los videos.\nEs:\n- {base}")
-try:
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
-except requests.RequestException as e:
-    print(f"Error al solicitar la URL {url}: {e}")
-    sys.exit(1)
-
+response = requests.get(url)
+soup = BeautifulSoup(response.text, 'html.parser')
 categorias = []
-if i==0:
-	buscar = "/category/"
-elif i==1:
-    buscar = "/channels/"
-else:
-    buscar = "/pornstar/"
 for link in soup.find_all('a'):
 	href = link.get('href')
-	
+	if i < 1:
+		buscar = "/category/"
+	else:
+		buscar = "/channels/"
 	if href and href.startswith(buscar):
 		categorias.append(href[10:])
 for categoria in categorias:
@@ -67,7 +49,6 @@ for posicion in numerotxt:
 		break
 if len(varios) < 1:   
 	varios.append(numerotxt)
-print("longitud varios: ",len(varios)) 
 for v in varios:    
 	n = int(v)-1
 	print(f"Se descargaran los videos de la categoria: {categorias[n]}")
@@ -94,3 +75,14 @@ for v in varios:
 	else:
 		print("Se produjo un error al ejecutar el comando:")
 		print(resultado.stderr)
+
+   
+	
+    
+	
+
+
+
+
+
+
